@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import getArticles from './api/newsApi';
+import { getArticles } from './api/newsApi';
+import { Link } from 'react-router-dom';
+import SingleArticle from './SingleArticle';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
@@ -25,7 +27,7 @@ const HomePage = () => {
 						{articlesList.map((article) => {
 							return (
 								<div className="col" key={article.article_id}>
-									<div className="card" style={{ width: '18rem' }}>
+									<div className="card" style={{ width: '25rem' }}>
 										<img
 											className="card-img-top"
 											src={article.article_img_url}
@@ -39,7 +41,7 @@ const HomePage = () => {
 												Topic: {article.topic}
 											</li>
 											<li className="list-group-item">
-												Author: {article.author}
+												By: {article.author}
 											</li>
 											<li className="list-group-item">
 												votes: {article.votes}
@@ -48,6 +50,16 @@ const HomePage = () => {
 												comments: {article.comments_count}
 											</li>
 										</ul>
+
+										<Link
+											className="btn btn-primary stretched-link"
+											to={{
+												pathname: `/articles/${article.article_id}`,
+												state: { articleId: article.article_id },
+											}}
+										>
+											Read
+										</Link>
 									</div>
 								</div>
 							);
@@ -55,6 +67,7 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
+			<SingleArticle />
 		</>
 	);
 };

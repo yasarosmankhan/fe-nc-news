@@ -1,12 +1,12 @@
 import NavBar from './NavBar';
-import Topics from './Topics';
+import PageRoutes from './PageRoutes';
 
 const Header = () => {
 	return (
 		<>
 			<h1>NC News</h1>
 			<NavBar />
-			<Topics />
+			<PageRoutes />
 		</>
 	);
 };
