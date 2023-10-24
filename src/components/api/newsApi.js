@@ -4,4 +4,6 @@ const newsApi = axios.create({
 	baseURL: 'https://nc-news-a2p9.onrender.com/api',
 });
 
-export default newsApi;
+export default function getArticles() {
+	return newsApi.get('/articles');
+}

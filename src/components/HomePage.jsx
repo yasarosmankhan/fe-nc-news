@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import newsApi from './api/newsApi';
+import getArticles from './api/newsApi';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
@@ -16,15 +16,11 @@ const HomePage = () => {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
 	}
 
-	function getArticles() {
-		return newsApi.get('/articles');
-	}
-
 	return (
 		<>
-			<h1>Articles</h1>
-			<div className="row">
-				<div className="col-8">
+			<h1 className="row justify-content-center">Articles</h1>
+			<div className="row justify-content-center">
+				<div className="col-10">
 					<div className="row">
 						{articlesList.map((article) => {
 							return (
