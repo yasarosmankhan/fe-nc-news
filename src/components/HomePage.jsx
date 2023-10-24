@@ -3,16 +3,22 @@ import fetchArticles from './api/fetchArticles';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		fetchArticles().then(({ articles: articles }) => {
-			const articlesArr = [];
-			articles.map((articles) => {
-				articlesArr.push(articles);
-			});
-			setArticlesList(articlesArr);
+		fetchArticles().then(({ articles }) => {
+			setArticlesList(articles);
+			setIsLoading(false);
 		});
 	}, []);
+
+	if (isLoading) {
+		return (
+			<div className="d-flex align-items-center justify-content-center">
+				<h1>Loading ...</h1>
+			</div>
+		);
+	}
 
 	return (
 		<>
