@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import fetchArticles from './api/fetchArticles';
+import newsApi from './api/newsApi';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		fetchArticles().then(({ articles }) => {
-			setArticlesList(articles);
+		getArticles().then((response) => {
+			setArticlesList(response.data.articles);
 			setIsLoading(false);
 		});
 	}, []);
 
 	if (isLoading) {
-		return (
-			<div className="d-flex align-items-center justify-content-center">
-				<h1>Loading ...</h1>
-			</div>
-		);
+		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
+	}
+
+	function getArticles() {
+		return newsApi.get('/articles');
 	}
 
 	return (
