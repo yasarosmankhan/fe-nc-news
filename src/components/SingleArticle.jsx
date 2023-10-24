@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { getArticleById } from './api/newsApi';
 import { useParams } from 'react-router-dom';
+import '../App.css';
 
 const SingleArticle = () => {
 	const { article_id } = useParams();
 	const [article, setArticle] = useState({});
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		if (article_id) {
-			getArticleById(article_id).then((response) => {
-				setArticle(response.data.article);
-				setIsLoading(false);
-			});
-		}
+		setIsLoading(true);
+		getArticleById(article_id).then((response) => {
+			setArticle(response.data.article);
+			setIsLoading(false);
+		});
 	}, []);
 
 	if (isLoading) {
@@ -22,41 +22,41 @@ const SingleArticle = () => {
 
 	return (
 		<>
-			<div class="container mt-4">
-				<div class="row">
-					<div class="col-md-8 mx-auto">
-						<h1 class="display-4 text-center">{article.title}</h1>
-						<div class="text-right">
-							<p>
-								<strong>By:</strong> {article.author}
-							</p>
-							<p>
-								<strong>Topic:</strong> {article.topic}
-							</p>
-							<p>
-								<strong>Created At:</strong> {article.created_at}
-							</p>
-						</div>
+			<div className="container mt-4">
+				<article>
+					<div className="row">
+						<div className="col-md-8 mx-auto">
+							<h1 className="display-4 text-center">{article.title}</h1>
+							<footer>
+								<p>
+									<strong>By:</strong> {article.author}
+								</p>
+								<p>
+									<strong>Topic:</strong> {article.topic}
+								</p>
+								<p>
+									<strong>Created At:</strong> {article.created_at}
+								</p>
+							</footer>
 
-						<img
-							src={article.article_img_url}
-							alt="Article Image"
-							class="img-fluid mt-3"
-						></img>
-						<br></br>
-						<br></br>
-						<p>{article.body}</p>
+							<img
+								src={article.article_img_url}
+								alt="Article Image"
+								className="img-fluid mt-3"
+							></img>
+							<p className="text-justify">{article.body}</p>
 
-						<div class="text-right">
-							<p>
-								<strong>Votes:</strong> {article.votes}
-							</p>
-							<p>
-								<strong>Comment Count:</strong> {article.comment_count}
-							</p>
+							<footer>
+								<p>
+									<strong>Votes:</strong> {article.votes}
+								</p>
+								<p>
+									<strong>Comment Count:</strong> {article.comment_count}
+								</p>
+							</footer>
 						</div>
 					</div>
-				</div>
+				</article>
 			</div>
 		</>
 	);
