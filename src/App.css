@@ -1,0 +1,16 @@
+.card {
+	width: 23rem;
+	height: 40rem;
+	margin-bottom: 15px;
+}
+
+.card-img-top {
+	height: 18rem;
+	width: 23rem;
+}
+
+.img-fluid {
+	max-height: 40rem;
+	max-width: 55rem;
+	padding-bottom: 15px;
+}

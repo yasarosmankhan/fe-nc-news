@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import getArticles from './api/newsApi';
+import { getArticles } from './api/newsApi';
+import { Link } from 'react-router-dom';
+import '../App.css';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
@@ -18,19 +20,19 @@ const HomePage = () => {
 
 	return (
 		<>
-			<h1 className="row justify-content-center">Articles</h1>
-			<div className="row justify-content-center">
-				<div className="col-10">
-					<div className="row">
-						{articlesList.map((article) => {
-							return (
-								<div className="col" key={article.article_id}>
-									<div className="card" style={{ width: '18rem' }}>
+			<main className="container mt-4">
+				<h1 className="text-center">Articles</h1>
+				<div className="row justify-content-center">
+					<section className="col-12">
+						<div className="row">
+							{articlesList.map((article) => (
+								<article className="col" key={article.article_id}>
+									<div className="card">
 										<img
 											className="card-img-top"
 											src={article.article_img_url}
-											alt={'topic image'}
-										></img>
+											alt="Topic Image"
+										/>
 										<div className="card-body">
 											<h5 className="card-title">{article.title}</h5>
 										</div>
@@ -39,22 +41,31 @@ const HomePage = () => {
 												Topic: {article.topic}
 											</li>
 											<li className="list-group-item">
-												Author: {article.author}
+												By: {article.author}
 											</li>
 											<li className="list-group-item">
-												votes: {article.votes}
+												Votes: {article.votes}
 											</li>
 											<li className="list-group-item">
-												comments: {article.comments_count}
+												Comments: {article.comments_count}
 											</li>
 										</ul>
+										<Link
+											className="btn btn-primary stretched-link"
+											to={{
+												pathname: `/articles/${article.article_id}`,
+												state: { articleId: article.article_id },
+											}}
+										>
+											Read more ...
+										</Link>
 									</div>
-								</div>
-							);
-						})}
-					</div>
+								</article>
+							))}
+						</div>
+					</section>
 				</div>
-			</div>
+			</main>
 		</>
 	);
 };
