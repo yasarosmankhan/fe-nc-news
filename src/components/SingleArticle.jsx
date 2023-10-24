@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getArticleById } from './api/newsApi';
+import { getArticleById, getArticleCommentsById } from './api/newsApi';
 import { useParams } from 'react-router-dom';
 import '../App.css';
+import Comments from './Comments';
 
 const SingleArticle = () => {
 	const { article_id } = useParams();
-	const [article, setArticle] = useState({});
+	const [article, setArticle] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
@@ -53,6 +54,7 @@ const SingleArticle = () => {
 								<p>
 									<strong>Comment Count:</strong> {article.comment_count}
 								</p>
+								<Comments />
 							</footer>
 						</div>
 					</div>
