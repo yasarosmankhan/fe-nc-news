@@ -22,10 +22,10 @@ const Comments = () => {
 
 	return (
 		<>
-			<div className="container mt-5" >
-				<div className="media" > 
+			<div className="container mt-5">
+				<div className="media">
 					{comments.map((comment) => (
-						<div key={comment.comment_id} className="media" id='comment-container'>
+						<div key={comment.comment_id} className="media" id="comment-container">
 							<div className="d-flex align-items-center">
 								<img
 									src={userImg}
@@ -37,7 +37,6 @@ const Comments = () => {
 							</div>
 							<div className="media-body">
 								<p>{comment.body}</p>
-
 								<p>
 									<strong>Votes:</strong> {comment.votes}
 								</p>
