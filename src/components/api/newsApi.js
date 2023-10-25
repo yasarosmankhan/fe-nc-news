@@ -17,6 +17,5 @@ export function getArticleCommentsById(article_id) {
 }
 
 export function updateArticleVote(vote, article_id) {
-	console.log(vote, article_id);
-	return newsApi.patch(`/articless/${article_id}`, { inc_votes: vote });
+	return newsApi.patch(`/articles/${article_id}`, { inc_votes: vote });
 }
