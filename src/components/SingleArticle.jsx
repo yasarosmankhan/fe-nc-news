@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getArticleById, getArticleCommentsById } from './api/newsApi';
+import { getArticleById } from './api/newsApi';
 import { useParams } from 'react-router-dom';
 import '../App.css';
 import Comments from './Comments';
+import Voter from './Voter';
 
 const SingleArticle = () => {
 	const { article_id } = useParams();
@@ -48,12 +49,9 @@ const SingleArticle = () => {
 							<p className="text-justify">{article.body}</p>
 
 							<footer>
-								<p>
-									<strong>Votes:</strong> {article.votes}
-								</p>
-								<p>
-									<strong>Comment Count:</strong> {article.comment_count}
-								</p>
+								<Voter votes={article.votes} id={article_id} />
+								<p></p>
+								<strong>Comment Count:</strong> {article.comment_count}
 								<Comments />
 							</footer>
 						</div>
