@@ -4,6 +4,7 @@ import { updateArticleVote } from './api/newsApi';
 const Voter = (props) => {
 	const [vote, setVote] = useState(0);
 	const [votedType, setVotedType] = useState(null);
+	const [errMessage, setErrorMessage] = useState(null);
 
 	const updateVotes = (voteType) => {
 		if (votedType === voteType) {
@@ -16,6 +17,7 @@ const Voter = (props) => {
 		}
 
 		updateArticleVote(vote + voteType, props.id).catch(() => {
+			setErrorMessage('Error occurred while updating the vote!');
 			setVotedType(null);
 			setVote(0);
 		});
@@ -40,6 +42,7 @@ const Voter = (props) => {
 					<i className="far fa-thumbs-down"></i> Dislike
 				</button>
 			</div>
+			<small className="text-muted">{errMessage}</small>
 		</>
 	);
 };

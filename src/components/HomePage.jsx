@@ -52,10 +52,7 @@ const HomePage = () => {
 										</ul>
 										<Link
 											className="btn btn-primary stretched-link"
-											to={{
-												pathname: `/articles/${article.article_id}`,
-												state: { articleId: article.article_id },
-											}}
+											to={`/articles/${article.article_id}`}
 										>
 											Read more ...
 										</Link>
