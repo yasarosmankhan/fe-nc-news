@@ -8,14 +8,18 @@ import '../App.css';
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
 	const { selectedTopic, setSelectedTopic } = useContext(TopicContext);
+	const { topic } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
+		if (topic) {
+			setSelectedTopic(topic);
+		}
 		getArticles(selectedTopic).then((response) => {
 			setArticlesList(response.data.articles);
 			setIsLoading(false);
 		});
-	}, [selectedTopic]);
+	}, [selectedTopic, topic]);
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
