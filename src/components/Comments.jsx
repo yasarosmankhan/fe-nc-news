@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import userImg from '../assets/user-avatar.png';
+import moment from 'moment';
 import { getArticleCommentsById } from './api/newsApi';
 import CommentForm from './CommentForm';
 import { UserContext } from './UserContext';
@@ -16,7 +17,10 @@ const Comments = () => {
 
 	useEffect(() => {
 		getArticleCommentsById(article_id).then((response) => {
-			setComments(response.data.comments);
+			const sortedComments = response.data.comments.sort((a, b) => {
+				return new Date(b.created_at) - new Date(a.created_at);
+			});
+			setComments(sortedComments);
 			setIsLoading(false);
 		});
 	}, []);
@@ -26,7 +30,7 @@ const Comments = () => {
 	};
 
 	const addNewComment = (newComment) => {
-		setComments([...comments, newComment]);
+		setComments([newComment, ...comments]);
 	};
 
 	if (isLoading) {
@@ -40,10 +44,7 @@ const Comments = () => {
 				{!username.length ? (
 					<div>
 						To comment on this post{' '}
-						<strong>
-							{' '}
-							<button onClick={handleLoginClick}>Login Here</button>
-						</strong>
+						<button onClick={handleLoginClick}>Login Here</button>
 					</div>
 				) : (
 					<CommentForm onCommentPosted={addNewComment} />
@@ -68,7 +69,9 @@ const Comments = () => {
 								<p>
 									<strong>Votes:</strong> {comment.votes}
 								</p>
-								<small className="text-muted">{comment.created_at}</small>
+								<small className="text-muted">
+									{moment(comment.created_at).format('MMMM Do YYYY, h:mm:ss A')}
+								</small>
 							</div>
 						</div>
 					))}

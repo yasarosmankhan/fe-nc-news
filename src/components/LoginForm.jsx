@@ -19,7 +19,7 @@ const LoginForm = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const selectedValue = e.target.exampleFormControlSelect1.value;
+		const selectedValue = e.target.LoginFormUserSelector.value;
 
 		if (!selectedValue) {
 			setErrMessage('No username is selected');
@@ -42,8 +42,8 @@ const LoginForm = () => {
 						<fieldset>
 							<legend>Login</legend>
 							<div className="form-group">
-								<label htmlFor="exampleFormControlSelect1">Select Username: </label>{' '}
-								<select className="custom-select" id="exampleFormControlSelect1">
+								<label htmlFor="LoginFormUserSelector">Select Username: </label>{' '}
+								<select className="custom-select" id="LoginFormUserSelector">
 									<option value=""></option>
 									{users.map((user, index) => (
 										<option key={index} value={user.username}>
