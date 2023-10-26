@@ -7,19 +7,15 @@ const Voter = (props) => {
 	const [errMessage, setErrorMessage] = useState(null);
 
 	const updateVotes = (voteType) => {
-		if (votedType === voteType) {
-			setVote(0);
-			setVotedType(null);
-		} else {
-			const updatedVote = vote + voteType;
-			setVote(updatedVote);
-			setVotedType(voteType);
-		}
+		const updatedVote = voteType === votedType ? 0 : voteType;
 
-		updateArticleVote(vote + voteType, props.id).catch(() => {
+		setVote((prevVote) => prevVote + updatedVote);
+		setVotedType(updatedVote === 0 ? null : voteType);
+
+		updateArticleVote(props.votes + updatedVote, props.id).catch(() => {
 			setErrorMessage('Error occurred while updating the vote!');
 			setVotedType(null);
-			setVote(0);
+			setVote((prevVote) => prevVote - updatedVote);
 		});
 	};
 

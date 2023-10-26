@@ -1,20 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import '../App.css';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import userImg from '../assets/user-avatar.png';
+import moment from 'moment';
 import { getArticleCommentsById } from './api/newsApi';
+import CommentForm from './CommentForm';
+import { UserContext } from './UserContext';
+import '../App.css';
 
 const Comments = () => {
 	const { article_id } = useParams();
 	const [comments, setComments] = useState([]);
+	const { username, setUsername } = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	useEffect(() => {
 		getArticleCommentsById(article_id).then((response) => {
-			setComments(response.data.comments);
+			const sortedComments = response.data.comments.sort((a, b) => {
+				return new Date(b.created_at) - new Date(a.created_at);
+			});
+			setComments(sortedComments);
 			setIsLoading(false);
 		});
 	}, []);
+
+	const handleLoginClick = () => {
+		navigate('/login', { state: { from: location } });
+	};
+
+	const addNewComment = (newComment) => {
+		setComments([newComment, ...comments]);
+	};
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
@@ -22,6 +39,18 @@ const Comments = () => {
 
 	return (
 		<>
+			<div>
+				<p></p>
+				{!username.length ? (
+					<div>
+						To comment on this post{' '}
+						<button onClick={handleLoginClick}>Login Here</button>
+					</div>
+				) : (
+					<CommentForm onCommentPosted={addNewComment} />
+				)}
+			</div>
+
 			<div className="container mt-5">
 				<div className="media">
 					{comments.map((comment) => (
@@ -40,7 +69,9 @@ const Comments = () => {
 								<p>
 									<strong>Votes:</strong> {comment.votes}
 								</p>
-								<small className="text-muted">{comment.created_at}</small>
+								<small className="text-muted">
+									{moment(comment.created_at).format('MMMM Do YYYY, h:mm:ss A')}
+								</small>
 							</div>
 						</div>
 					))}
