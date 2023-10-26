@@ -1,18 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import { getArticles } from './api/newsApi';
 import { Link } from 'react-router-dom';
+import { TopicContext } from './TopicContext';
 import '../App.css';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
+	const { selectedTopic, setSelectedTopic } = useContext(TopicContext);
+	const { topic } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		getArticles().then((response) => {
+		if (topic) {
+			setSelectedTopic(topic);
+		}
+		getArticles(selectedTopic).then((response) => {
 			setArticlesList(response.data.articles);
 			setIsLoading(false);
 		});
-	}, []);
+	}, [selectedTopic]);
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;

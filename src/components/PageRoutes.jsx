@@ -8,6 +8,7 @@ const PageRoutes = () => {
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/:topic" element={<HomePage />} />
 				<Route path="/articles/:article_id" element={<SingleArticle />} />
 				<Route path="/login" element={<LoginForm />} />
 			</Routes>
