@@ -6,12 +6,14 @@ import { postCommentOnArticleById } from './api/newsApi';
 const CommentForm = ({ onCommentPosted }) => {
 	const [comment, setComment] = useState('');
 	const [errMessage, setErrMessage] = useState(null);
+	const [userMessage, setUserMessage] = useState(null);
 	const { article_id } = useParams();
 	const { username, setUsername } = useContext(UserContext);
 
 	const handleCommentChange = (e) => {
 		setComment(e.target.value);
 		setErrMessage(null);
+		setUserMessage(null);
 	};
 
 	const handleSubmit = (e) => {
@@ -21,6 +23,7 @@ const CommentForm = ({ onCommentPosted }) => {
 				.then((response) => {
 					onCommentPosted(response.data.comment);
 					setComment('');
+					setUserMessage('Comment posted successfully!');
 				})
 				.catch(() => {
 					setErrMessage('Error posting your comment!');
@@ -32,6 +35,8 @@ const CommentForm = ({ onCommentPosted }) => {
 
 	const handleClear = () => {
 		setComment('');
+		setErrMessage(null);
+		setUserMessage(null);
 	};
 
 	return (
@@ -55,6 +60,7 @@ const CommentForm = ({ onCommentPosted }) => {
 					Clear
 				</button>
 			</div>
+			<strong className="user-message">{userMessage}</strong>
 			<strong className="error-message">{errMessage}</strong>
 		</form>
 	);
