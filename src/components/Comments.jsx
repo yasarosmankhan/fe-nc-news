@@ -24,7 +24,7 @@ const Comments = () => {
 			setComments(sortedComments);
 			setIsLoading(false);
 		});
-	}, [comments]);
+	}, []);
 
 	const handleLoginClick = () => {
 		navigate('/login', { state: { from: location } });
@@ -37,6 +37,7 @@ const Comments = () => {
 	const handleDeleteComment = (comment_id) => {
 		deleteCommentById(comment_id).then(() => {
 			setUserMessage('Comment deleted successfully!');
+			setComments((prevComments) => prevComments.filter((comment) => comment.comment_id !== comment_id));
 			setTimeout(() => {
 				setUserMessage('');
 			}, 3000);
