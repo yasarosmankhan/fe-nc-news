@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getArticles } from './api/newsApi';
 import { Link } from 'react-router-dom';
 import { TopicContext } from './TopicContext';
+import SortQueries from './SortQueries';
 import '../App.css';
 
 const HomePage = () => {
@@ -11,22 +12,39 @@ const HomePage = () => {
 	const { topic } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 
+	const [sortby, setSortby] = useState(null);
+	const [order, setOrder] = useState(null);
+
 	useEffect(() => {
 		if (topic) {
 			setSelectedTopic(topic);
 		}
-		getArticles(selectedTopic).then((response) => {
+		getArticles(sortby, order, selectedTopic).then((response) => {
 			setArticlesList(response.data.articles);
 			setIsLoading(false);
 		});
-	}, [selectedTopic, topic]);
+	}, [selectedTopic, topic, sortby, order]);
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
 	}
 
+	const getQueries = (queries) => {
+		setSortby(queries.sortby);
+		setOrder(queries.order);
+	};
+	const clearFilters = () => {
+		setSortby(null);
+		setOrder(null);
+	};
+
 	return (
 		<>
+			<div className="row">
+				<div className="col-12 d-flex justify-content-end">
+					<SortQueries getQueries={getQueries} clearFilters={clearFilters} />
+				</div>
+			</div>
 			<main className="container mt-4">
 				<h1 className="text-center">Articles</h1>
 				<div className="row justify-content-center">
@@ -54,7 +72,7 @@ const HomePage = () => {
 												Votes: {article.votes}
 											</li>
 											<li className="list-group-item">
-												Comments: {article.comments_count}
+												Comments: {article.comment_count}
 											</li>
 										</ul>
 										<Link

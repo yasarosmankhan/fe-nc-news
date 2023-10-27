@@ -8,8 +8,10 @@ export function getTopics() {
 	return newsApi.get('/topics');
 }
 
-export function getArticles(sortby) {
-	return newsApi.get('/articles', { params: { topic: sortby } });
+export function getArticles(sort_by, order_by, selectedTopic) {
+	return newsApi.get('/articles', {
+		params: { sortby: sort_by, order: order_by, topic: selectedTopic },
+	});
 }
 
 export function getArticleById(article_id) {
