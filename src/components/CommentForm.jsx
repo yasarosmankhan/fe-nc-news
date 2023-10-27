@@ -24,6 +24,9 @@ const CommentForm = ({ onCommentPosted }) => {
 					onCommentPosted(response.data.comment);
 					setComment('');
 					setUserMessage('Comment posted successfully!');
+					setTimeout(() => {
+						setUserMessage('');
+					}, 3000);
 				})
 				.catch(() => {
 					setErrMessage('Error posting your comment!');

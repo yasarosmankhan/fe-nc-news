@@ -33,3 +33,7 @@ export function updateArticleVote(vote, article_id) {
 export function postCommentOnArticleById(article_id, newComment) {
 	return newsApi.post(`/articles/${article_id}/comments`, (article_id, newComment));
 }
+
+export function deleteCommentById(comment_id) {
+	return newsApi.delete(`/comments/${comment_id}`);
+}

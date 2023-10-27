@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getArticleById } from './api/newsApi';
 import { useParams } from 'react-router-dom';
-import moment from "moment";
 import '../App.css';
 import Comments from './Comments';
 import Voter from './Voter';
@@ -38,7 +37,7 @@ const SingleArticle = () => {
 									<strong>Topic:</strong> {article.topic}
 								</p>
 								<p>
-									<strong>Created At:</strong> {moment(article.created_at).format('MMMM Do YYYY, h:mm:ss A')}
+									<strong>Created At:</strong> {article.created_at}
 								</p>
 							</footer>
 
