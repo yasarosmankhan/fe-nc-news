@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { TopicContext } from './TopicContext';
 import SortQueries from './SortQueries';
 import '../App.css';
+import NotFound from './NotFound';
 
 const HomePage = () => {
 	const [articlesList, setArticlesList] = useState([]);
 	const { selectedTopic, setSelectedTopic } = useContext(TopicContext);
+	const [error, setError] = useState(null);
 	const { topic } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -19,11 +21,20 @@ const HomePage = () => {
 		if (topic) {
 			setSelectedTopic(topic);
 		}
-		getArticles(sortby, order, selectedTopic).then((response) => {
-			setArticlesList(response.data.articles);
-			setIsLoading(false);
-		});
+		getArticles(sortby, order, selectedTopic)
+			.then((response) => {
+				setArticlesList(response.data.articles);
+				setIsLoading(false);
+			})
+			.catch((error) => {
+				setError(error);
+				setIsLoading(false);
+			});
 	}, [selectedTopic, topic, sortby, order]);
+
+	if (error) {
+		return <Navigate to="/" />;
+	}
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;

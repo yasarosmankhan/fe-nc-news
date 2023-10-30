@@ -2,20 +2,30 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
 import { TopicContext } from './TopicContext';
 import { getTopics } from './api/newsApi';
+import NotFound from './NotFound';
 
 const TopicsDropdown = () => {
 	const [topics, setTopics] = useState([]);
+	const [error, setError] = useState(null);
 	const { selectedTopic, setSelectedTopic } = useContext(TopicContext);
 
 	useEffect(() => {
-		getTopics().then((response) => {
-			setTopics(response.data.topics);
-		});
+		getTopics()
+			.then((response) => {
+				setTopics(response.data.topics);
+			})
+			.catch((error) => {
+				setError(error);
+			});
 	}, [selectedTopic]);
 
 	const handleTopicSelect = (slug) => {
 		setSelectedTopic(slug);
 	};
+
+	if (error) {
+		return <NotFound />;
+	}
 
 	return (
 		<>

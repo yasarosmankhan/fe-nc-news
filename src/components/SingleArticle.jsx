@@ -4,19 +4,30 @@ import { useParams } from 'react-router-dom';
 import '../App.css';
 import Comments from './Comments';
 import Voter from './Voter';
+import NotFound from './NotFound';
 
 const SingleArticle = () => {
 	const { article_id } = useParams();
 	const [article, setArticle] = useState([]);
+	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
-		getArticleById(article_id).then((response) => {
-			setArticle(response.data.article);
-			setIsLoading(false);
-		});
+		getArticleById(article_id)
+			.then((response) => {
+				setArticle(response.data.article);
+				setIsLoading(false);
+			})
+			.catch((error) => {
+				setError(error);
+				setIsLoading(false);
+			});
 	}, []);
+
+	if (error) {
+		return <NotFound />;
+	}
 
 	if (isLoading) {
 		return <div className="d-flex align-items-center justify-content-center">Loading ...</div>;
